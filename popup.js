@@ -3,7 +3,7 @@
 document.addEventListener("DOMContentLoaded", function () {
   displaySavedData();
   document.getElementById("getDataButton").addEventListener("click", getData);
-  document.getElementById("copyButton").addEventListener("click", copyData);
+  document.getElementById("savedTable").addEventListener("click", copyData); // Attach copyData to the click event of the table
 });
 
 function displaySavedData() {
@@ -42,6 +42,8 @@ function getData() {
   });
 }
 
+// popup.js
+
 function copyData() {
   let savedData = "";
 
@@ -52,7 +54,5 @@ function copyData() {
   });
 
   // Copy the concatenated data to the clipboard
-  navigator.clipboard.writeText(savedData).then(function () {
-    alert("Data copied to clipboard!");
-  });
+  navigator.clipboard.writeText(savedData);
 }

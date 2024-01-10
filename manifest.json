@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "name": "sessionStorage_V1",
+  "name": "textGetter_V1",
   "version": "1.0",
   "description": "Save and copy text from web pages.",
   "permissions": ["storage", "activeTab", "tabs"],

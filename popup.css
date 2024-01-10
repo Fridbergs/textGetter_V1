@@ -43,3 +43,11 @@ div {
 tr {
   padding: 0.2em;
 }
+
+#savedTable {
+  cursor: grab;
+}
+
+#savedTable:active {
+  cursor: grabbing;
+}
