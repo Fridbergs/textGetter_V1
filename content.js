@@ -1,18 +1,25 @@
 // content.js
 
+// Retrieve the savedTextCounter and keyOrderArray from sessionStorage
+let savedTextCounter =
+  parseInt(sessionStorage.getItem("savedTextCounter")) || 0;
+let keyOrderArray = JSON.parse(sessionStorage.getItem("keyOrderArray")) || [];
+
+// Sort the keyOrderArray based on the counter value
+keyOrderArray.sort((a, b) => {
+  const indexA = parseInt(a.replace("savedText", ""));
+  const indexB = parseInt(b.replace("savedText", ""));
+  return indexA - indexB;
+});
+
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.action === "retrieveData") {
-    // Detta kommer att köras i webbsidans kontext
-    let siteKeys = Object.keys(sessionStorage).filter((key) =>
-      key.startsWith("savedText")
-    );
-
-    let data = siteKeys.map((key) => ({
+    // Use the sorted keyOrderArray to maintain the order of keys
+    let data = keyOrderArray.map((key) => ({
       key,
       value: sessionStorage.getItem(key),
     }));
 
-    // Skicka datat tillbaka till bakgrundsfilen
     sendResponse(data);
   }
 });
@@ -22,8 +29,6 @@ let isCKeyPressed = false;
 document.addEventListener("keydown", function (event) {
   if (event.key === "c") {
     isCKeyPressed = true;
-
-    // Apply a style to change the cursor to grab when the "c" key is pressed
     document.body.style.cursor = "grab";
   }
 });
@@ -31,27 +36,30 @@ document.addEventListener("keydown", function (event) {
 document.addEventListener("keyup", function (event) {
   if (event.key === "c") {
     isCKeyPressed = false;
-
-    // Reset the cursor style to default when the "c" key is released
     document.body.style.cursor = "default";
   }
 });
 
 document.addEventListener("click", function (event) {
-  // Handle the click event if needed
   let clickedElement = event.target;
-  if (clickedElement) {
-    // Your logic for handling the click event
-    // For example, storing data in sessionStorage
-    if (isCKeyPressed) {
-      let elementContent = clickedElement.innerText;
-      let key = "savedText" + Date.now();
-      sessionStorage.setItem(key, elementContent);
+  if (clickedElement && isCKeyPressed) {
+    let elementContent = clickedElement.innerText;
+    let key = "savedText" + ++savedTextCounter;
 
-      // Prevent the default behavior for link clicks
-      if (clickedElement.tagName === "A") {
-        event.preventDefault();
-      }
+    // Update keyOrderArray and store it in sessionStorage
+    keyOrderArray.push(key);
+    keyOrderArray.sort((a, b) => {
+      const indexA = parseInt(a.replace("savedText", ""));
+      const indexB = parseInt(b.replace("savedText", ""));
+      return indexA - indexB;
+    });
+
+    sessionStorage.setItem("keyOrderArray", JSON.stringify(keyOrderArray));
+    sessionStorage.setItem("savedTextCounter", savedTextCounter.toString());
+    sessionStorage.setItem(key, elementContent);
+
+    if (clickedElement.tagName === "A") {
+      event.preventDefault();
     }
   }
 });

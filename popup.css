@@ -19,12 +19,18 @@ table {
   text-align: center;
 }
 
-button {
+#getDataButton {
   width: 6em;
   height: 2em;
   border: 1px solid;
   border-radius: 5px;
-  background-color: rgb(118, 185, 243);
+  background-color: rgb(156, 202, 242);
+  cursor: pointer;
+}
+
+#getDataButton:hover {
+  background-color: rgb(107, 162, 211);
+  cursor: pointer;
 }
 
 div {

@@ -9,19 +9,21 @@ document.addEventListener("DOMContentLoaded", function () {
 function displaySavedData() {
   let savedTable = document.getElementById("savedTable");
 
+  // Retrieve the counter value from sessionStorage
+  let counter = parseInt(sessionStorage.getItem("savedTextCounter")) || 0;
+
   // Iterate over sessionStorage keys for the specific site
-  let siteKeys = Object.keys(sessionStorage).filter((key) =>
-    key.startsWith("savedText")
-  );
-  for (let i = 0; i < siteKeys.length; i++) {
-    let key = siteKeys[i];
+  for (let i = 1; i <= counter; i++) {
+    let key = "savedText" + i;
     let value = sessionStorage.getItem(key);
 
-    let row = savedTable.insertRow(-1);
-    let cell1 = row.insertCell(0);
+    if (value !== null) {
+      let row = savedTable.insertRow(-1);
+      let cell1 = row.insertCell(0);
 
-    // Set the content of the cell directly to the value
-    cell1.textContent = value;
+      // Set the content of the cell directly to the value
+      cell1.textContent = value;
+    }
   }
 }
 
