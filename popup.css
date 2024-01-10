@@ -1,0 +1,45 @@
+body {
+  background-color: rgb(247, 249, 252);
+  width: 50em;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+table {
+  min-width: 15em;
+  min-height: 3em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 2px solid;
+  border-radius: 10px;
+  background-color: aliceblue;
+  text-align: center;
+}
+
+button {
+  width: 6em;
+  height: 2em;
+  border: 1px solid;
+  border-radius: 5px;
+  background-color: rgb(118, 185, 243);
+}
+
+div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1em;
+}
+
+.textDiv {
+  align-self: center;
+  width: 75%;
+  text-align: center;
+}
+
+tr {
+  padding: 0.2em;
+}
