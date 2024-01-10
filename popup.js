@@ -63,6 +63,15 @@ function createCsv() {
   var rows = table.getElementsByTagName("tr");
   var csvContent = [];
 
+  // Format today's date and time
+  var currentDate = new Date();
+  var formattedDate = currentDate.toISOString().split("T")[0]; // Format as YYYY-MM-DD
+  var formattedTime = currentDate.toTimeString().split(" ")[0]; // Format as HH:mm:ss
+
+  // Combine date and time for the filename
+  var filename =
+    "extracted_data_" + formattedDate + "_" + formattedTime + ".csv";
+
   // Add header row
   var headerRow = [];
   var headerCells = rows[0].getElementsByTagName("td");
@@ -88,7 +97,10 @@ function createCsv() {
   var blob = new Blob([csvString], { type: "text/csv" });
   var a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
-  a.download = "data.csv";
+
+  // Set the download attribute to the generated filename
+  a.download = filename;
+
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
